@@ -2,6 +2,11 @@
 #include "ui_mainwindow.h"
 #include <QtMath>
 
+/*
+ * Написать программу, которая будет находить корень квадратного уравнения второй степени,
+ * входные данные: a, b, c. Если нахождение корня невозможно, выводить сообщение в поле результата
+ * (или выводить результат в виде комплексного числа). Учитывать, что число a может быть равно нулю.*/
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -16,9 +21,13 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_btn_calc_clicked()
 {
-    double a = ui->le_a->text().toDouble();
-    double b = ui->le_b->text().toDouble();
-    double c = ui->le_c->text().toDouble();
+    QString a_s = ui->le_a->text();
+    QString b_s = ui->le_b->text();
+    QString c_s = ui->le_c->text();
+
+    double a = a_s.replace(",",".").toDouble();
+    double b = b_s.replace(",",".").toDouble();
+    double c = c_s.replace(",",".").toDouble();
 
     double d =  qPow(b,2) - 4*a*c;
     double x1;

@@ -2,6 +2,10 @@
 #include "ui_mainwindow.h"
 #include <QtMath>
 
+/*Расчет стороны треугольника по двум сторонам и углом между ними.
+ * Дополнительно: добавить переключатель из QRadioButton для выбора единиц, в каких указан угол: градусах или радианах.
+ * Формулу для расчета можно найти по ссылке: https://www-formula.ru/2011-10-09-11-08-41.*/
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -16,15 +20,21 @@ MainWindow::~MainWindow()
 }
 
 
-void MainWindow::on_pushButton_clicked()
+void MainWindow::on_btn_calc_clicked()
 {
-    double a = ui->le_a->text().toDouble();
-    double b = ui->le_b->text().toDouble();
-    double alpha = ui->le_alpha->text().toDouble();
+    QString a_s = ui->le_a->text();
+    QString b_s = ui->le_b->text();
+    QString alpha_s = ui->le_alpha->text();
+
+    alpha_s.replace(",",".");
+    a_s.replace(",",".");
+    b_s.replace(",",".");
+
+    double a = a_s.toDouble();
+    double b = b_s.toDouble();
+    double alpha = alpha_s.toDouble();
 
     bool angle_in_degree = true;
-
-    //ui->rb_angle_degree->setChecked(true);
 
     if (ui->rb_angle_rad->isChecked())
         angle_in_degree = false;
