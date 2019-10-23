@@ -21,11 +21,11 @@ MainWindow::~MainWindow()
 void MainWindow::on_btn_add_clicked()
 {
     QString s = ui->plainTextEdit->toPlainText();
-    ui->textEdit->setPlainText(s);
+    ui->textEdit->insertHtml(s);
 }
 
 void MainWindow::on_btn_replace_clicked()
 {
-    QString s = ui->textEdit->toPlainText();
+    QString s = ui->plainTextEdit->toPlainText();
     ui->textEdit->setHtml(s);
 }

@@ -12,6 +12,8 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    ui->le_x1->setReadOnly(true);
+    ui->le_x2->setReadOnly(true);
 }
 
 MainWindow::~MainWindow()

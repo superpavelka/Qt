@@ -12,6 +12,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     ui->rb_angle_degree->setChecked(true);
+    ui->le_c->setReadOnly(true);
 }
 
 MainWindow::~MainWindow()
