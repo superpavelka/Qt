@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/">
+        <file>icons8-c++.png</file>
+        <file>icons8-c-sharp.png</file>
+        <file>icons8-java.png</file>
+        <file>icons8-javascript.png</file>
+        <file>icons8-php.png</file>
+        <file>icons8-python.png</file>
+        <file>icons8-prog.png</file>
+    </qresource>
+</RCC>
