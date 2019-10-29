@@ -51,15 +51,15 @@ void MainWindow::on_btn_calc_clicked()
      s1 = QString::number(x1);
      s2 = QString::number(x2);
     }
-    else if(a == 0.0 && b == 0.0)
+    else if(a == 0.0 && b == 0.0 && c != 0.0)
     {
         s1 = "Нет решений";
         s2 = "Нет решений";
     }
     else if(a == 0.0 && b == 0.0 && c == 0.0)
     {
-        s1 = "0";
-        s2 = "0";
+        s1 = "любое число";
+        s2 = "любое число";
     }
     else
     {
