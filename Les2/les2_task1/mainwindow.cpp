@@ -42,10 +42,12 @@ void MainWindow::on_textEdit_textChanged()
 
             if (symbols.contains(s))
             {
-                QString symb = symbols[s];
+                QTextCursor cursor = ui->textEdit->textCursor();
+                QString symb = symbols[s];                
                 txt.remove(fnd,6);
-                txt.insert(fnd+1,symb);
-                ui->textEdit->setHtml(txt);
+                txt.insert(fnd+1,symb);                
+                ui->textEdit->setHtml(txt);                
+                ui->textEdit->setTextCursor(cursor);
             }
         }
     }

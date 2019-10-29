@@ -19,16 +19,34 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     model = new QStandardItemModel(this);
     ui->listView->setModel(model);
-    model->appendRow(new QStandardItem(QIcon(":/icons8-c++.png"), "C++"));
-    model->appendRow(new QStandardItem(QIcon(":/icons8-java.png"), "Java"));
-    model->appendRow(new QStandardItem(QIcon(":/icons8-python.png"), "Python"));
-    model->appendRow(new QStandardItem(QIcon(":/icons8-javascript.png"), "JavaScript"));
-    model->appendRow(new QStandardItem(QIcon(":/icons8-c-sharp.png"), "C#"));
-    model->appendRow(new QStandardItem(QIcon(":/icons8-php.png"), "PHP"));
+
+    QStandardItem* item;
+    item = new QStandardItem(QIcon(":/icons8-c++.png"), "C++");
+    item->setFlags(item->flags() ^ (Qt::ItemIsDropEnabled));
+    model->appendRow(item);
+
+    item = new QStandardItem(QIcon(":/icons8-java.png"), "Java");
+    item->setFlags(item->flags() ^ (Qt::ItemIsDropEnabled));
+    model->appendRow(item);
+
+    item = new QStandardItem(QIcon(":/icons8-python.png"), "Python");
+    item->setFlags(item->flags() ^ (Qt::ItemIsDropEnabled));
+    model->appendRow(item);
+
+    item = new QStandardItem(QIcon(":/icons8-javascript.png"), "JavaScript");
+    item->setFlags(item->flags() ^ (Qt::ItemIsDropEnabled));
+    model->appendRow(item);
+
+    item = new QStandardItem(QIcon(":/icons8-c-sharp.png"), "C#");
+    item->setFlags(item->flags() ^ (Qt::ItemIsDropEnabled));
+    model->appendRow(item);
+
+    item = new QStandardItem(QIcon(":/icons8-php.png"), "PHP");
+    item->setFlags(item->flags() ^ (Qt::ItemIsDropEnabled));
+    model->appendRow(item);
 
     ui->listView->setAcceptDrops(true);
     ui->listView->setDragEnabled(true);
-    ui->listView->setDragDropMode(QAbstractItemView::DragDrop);
     ui->listView->setDefaultDropAction(Qt::MoveAction);
 
     if (ui->checkBox->isChecked())
