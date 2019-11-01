@@ -2,7 +2,6 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QList>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -26,4 +25,5 @@ private:
     int rows;
 
 };
+
 #endif // MAINWINDOW_H

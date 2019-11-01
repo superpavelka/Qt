@@ -20,6 +20,7 @@ SOURCES += \
     mainwindow.cpp
 
 HEADERS += \
+    delegates.h \
     mainwindow.h
 
 FORMS += \
