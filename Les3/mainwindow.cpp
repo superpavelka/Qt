@@ -28,6 +28,7 @@ MainWindow::MainWindow(QWidget *parent)
         ui->plainTextEdit_2->setPlainText("lasttext.txt");
         file.close();
     }
+    edit = true;
 }
 
 MainWindow::~MainWindow()
@@ -112,13 +113,28 @@ void MainWindow::on_btn_open_clicked()
 
 void MainWindow::on_btn_undo_clicked()
 {
-    ui->plainTextEdit->undo();
+    edit = false;
+    if (cur_undo_pos > 0)
+    {
+        cur_undo_pos--;
+        QString s = undo_list.at(cur_undo_pos);
+        ui->plainTextEdit->setPlainText(s);
+    }
+
 }
 
 
 void MainWindow::on_btn_redo_clicked()
 {
-    ui->plainTextEdit->redo();
+    edit = false;
+    if (undo_list.size() - 1 >= (cur_undo_pos + 1))
+    {
+        cur_undo_pos++;
+        QString s = undo_list.at(cur_undo_pos);
+        ui->plainTextEdit->setPlainText(s);
+    }
+
+
 }
 
 void MainWindow::on_desc_btn_clicked()
@@ -130,4 +146,23 @@ void MainWindow::on_desc_btn_clicked()
     QByteArray byteArray = file.readAll();
     msgBox.setText(tr(byteArray.data()));
     msgBox.exec();
+}
+
+void MainWindow::on_plainTextEdit_textChanged()
+{
+    if (edit)
+    {
+        QString s = ui->plainTextEdit->toPlainText();
+        if (!undo_list.isEmpty() && undo_list.last() != s)
+        {
+            undo_list.append(s);
+            cur_undo_pos++;
+        }
+        else if (undo_list.isEmpty())
+        {
+            undo_list.append(s);
+            cur_undo_pos = 0;
+        }
+    }
+    edit = true;
 }

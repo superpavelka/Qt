@@ -12,6 +12,9 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
+    QStringList undo_list;
+    bool edit;
+    int cur_undo_pos;
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
@@ -20,12 +23,13 @@ private slots:
 
     void on_btn_open_clicked();
 
-
     void on_btn_undo_clicked();
 
     void on_btn_redo_clicked();
 
     void on_desc_btn_clicked();
+
+    void on_plainTextEdit_textChanged();
 
 private:
     Ui::MainWindow *ui;
