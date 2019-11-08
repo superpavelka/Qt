@@ -115,26 +115,30 @@ void MainWindow::on_btn_open_clicked()
 void MainWindow::on_btn_undo_clicked()
 {
     edit = false;
-    if (cur_undo_pos > 0)
+    if (!read_only)
     {
-        cur_undo_pos--;
-        QString s = undo_list.at(cur_undo_pos);
-        ui->plainTextEdit->setPlainText(s);
+        if (cur_undo_pos > 0)
+        {
+            cur_undo_pos--;
+            QString s = undo_list.at(cur_undo_pos);
+            ui->plainTextEdit->setPlainText(s);
+        }
     }
-
 }
 
 
 void MainWindow::on_btn_redo_clicked()
 {
     edit = false;
-    if (undo_list.size() - 1 >= (cur_undo_pos + 1))
+    if (!read_only)
     {
-        cur_undo_pos++;
-        QString s = undo_list.at(cur_undo_pos);
-        ui->plainTextEdit->setPlainText(s);
+        if (undo_list.size() - 1 >= (cur_undo_pos + 1))
+        {
+            cur_undo_pos++;
+            QString s = undo_list.at(cur_undo_pos);
+            ui->plainTextEdit->setPlainText(s);
+        }
     }
-
 
 }
 
@@ -151,18 +155,21 @@ void MainWindow::on_desc_btn_clicked()
 
 void MainWindow::on_plainTextEdit_textChanged()
 {
-    if (edit)
+    if (!read_only)
     {
-        QString s = ui->plainTextEdit->toPlainText();
-        if (!undo_list.isEmpty() && undo_list.last() != s)
+        if (edit)
         {
-            undo_list.append(s);
-            cur_undo_pos++;
-        }
-        else if (undo_list.isEmpty())
-        {
-            undo_list.append(s);
-            cur_undo_pos = 0;
+            QString s = ui->plainTextEdit->toPlainText();
+            if (!undo_list.isEmpty() && undo_list.last() != s)
+            {
+                undo_list.append(s);
+                cur_undo_pos++;
+            }
+            else if (undo_list.isEmpty())
+            {
+                undo_list.append(s);
+                cur_undo_pos = 0;
+            }
         }
     }
     edit = true;
