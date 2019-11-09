@@ -14,11 +14,14 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
-    ui->setupUi(this);
+    ui->setupUi(this);    
     ui->plainTextEdit_2->setReadOnly(true);
-    m_menu = new QMenu( this );
-    roAction = m_menu->addAction( "Режим только чтение(ВЫКЛ)" );
-    connect( roAction, SIGNAL( triggered() ), this, SLOT( read_only_switch() ) );
+    QPlainTextEdit* pte = ui->plainTextEdit;
+    roAct = new QAction("Только чтение(ВКЛ)", pte);
+    pte->addAction(roAct);
+    pte->setContextMenuPolicy(Qt::ActionsContextMenu);
+    pte->connect(roAct, SIGNAL(triggered()), this, SLOT(read_only_switch()));
+
     QFile file ("./lasttext.txt");
     if (file.open(QIODevice::ReadOnly))
     {
@@ -175,24 +178,18 @@ void MainWindow::on_plainTextEdit_textChanged()
     edit = true;
 }
 
-void MainWindow::contextMenuEvent( QContextMenuEvent* e ) {
-    if( m_menu ) {
-        m_menu->exec( e->globalPos() );
-    }
-}
-
 void MainWindow::read_only_switch()
 {
     if (!read_only)
     {
         read_only = true;
-        roAction->setText("Режим только чтение(ВКЛ)");
+        roAct->setText("Только чтение(ВЫКЛ)");
         ui->plainTextEdit->setReadOnly(true);
     }
     else
     {
         read_only = false;
-        roAction->setText("Режим только чтение(ВЫКЛ)");
+        roAct->setText("Только чтение(ВКЛ)");
         ui->plainTextEdit->setReadOnly(false);
     }
 }

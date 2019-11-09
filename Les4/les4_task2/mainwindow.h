@@ -28,12 +28,9 @@ private slots:
     void on_plainTextEdit_textChanged();
     void read_only_switch();
 
-protected:
-    void contextMenuEvent( QContextMenuEvent* e );
-
 private:
     Ui::MainWindow *ui;
     QMenu* m_menu;
-    QAction* roAction;
+    QAction* roAct;
 };
 #endif // MAINWINDOW_H
