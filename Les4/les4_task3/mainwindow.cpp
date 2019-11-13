@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QKeyEvent>
+#include <QProcess>
 
 /* Написать планировщик запуска приложений по нажатию клавиши.
  * Программа должна иметь возможность редактировать кнопки на форме и программу,
@@ -25,7 +26,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->comboBox_2->addItem("calc");
     ui->comboBox_2->addItem("mspaint");
     ui->comboBox_2->addItem("dxdiag");
-    ui->comboBox_2->addItem("cmd");
+    ui->comboBox_2->addItem("notepad");
     key = ui->comboBox->currentText();
     program = ui->comboBox_2->currentText();
 
@@ -60,7 +61,7 @@ MainWindow::MainWindow(QWidget *parent)
            ui->comboBox_2->setCurrentIndex(1);
        if (l.at(1) == "dxdiag")
            ui->comboBox_2->setCurrentIndex(2);
-       if (l.at(1) == "cmd")
+       if (l.at(1) == "notepad")
            ui->comboBox_2->setCurrentIndex(3);
        program = l.at(1);
     }
@@ -119,9 +120,9 @@ void MainWindow::on_comboBox_2_activated(const QString &arg1)
     {
         program = "dxdiag";
     }
-    if (arg1 == "cmd")
+    if (arg1 == "notepad")
     {
-        program = "cmd";
+        program = "notepad";
     }
 }
 
@@ -151,6 +152,24 @@ void MainWindow::keyReleaseEvent(QKeyEvent *event)
 
 void MainWindow::slot__cmd()
 {
-    const char* p = program.toStdString().c_str();
-    system(p);
+
+    if(QSysInfo::productType()=="osx")
+    {
+        if (program == "calc")
+        {
+            QString PROGRAM_NAME = "open /Applications/Calculator.app";
+            QProcess::startDetached( PROGRAM_NAME );
+        }
+    }
+    else if(QSysInfo::productType()=="windows")
+    {
+        QString PROGRAM_NAME = program;
+        QProcess::startDetached( PROGRAM_NAME );
+
+    }
+    else
+    {
+        QString PROGRAM_NAME = program;
+        QProcess::startDetached( PROGRAM_NAME );
+    }
 }
