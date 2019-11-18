@@ -29,7 +29,7 @@ MainWindow::MainWindow(QWidget *parent)
         ui->plainTextEdit_2->setPlainText("lasttext.txt");
         file.close();
     }
-    ui->comboBox->addItem("gray");
+    ui->comboBox->addItem("default");
     ui->comboBox->addItem("green");
     ui->comboBox->addItem("red");
     edit = true;
@@ -200,11 +200,20 @@ void MainWindow::on_comboBox_activated(const QString &arg1)
     MainWindow *nw = qobject_cast<MainWindow*>( QApplication::topLevelWidgets()[ 0 ] );
 
     if (arg1 == "green")
-            nw->setStyleSheet("QMainWindow{background-color: green}");
+    {
+        nw->setStyleSheet("");
+        nw->setStyleSheet("QPushButton {background-color: green;} QMainWindow{background-color: green}");
+    }
     else if (arg1 == "red")
-                nw->setStyleSheet("QMainWindow{background-color: red}");
-    else if (arg1 == "gray")
-                nw->setStyleSheet("QMainWindow{background-color: gray}");
+    {
+        nw->setStyleSheet("");
+        nw->setStyleSheet("QPushButton {background-color: red;}QMainWindow{background-color: red}");
+    }
+    else if (arg1 == "default")
+    {
+        nw->setStyleSheet("");
+        //nw->setStyleSheet("QPushButton {background-color: gray;}QMainWindow{background-color: gray}");
+    }
     nw->update();
 
 }
