@@ -195,18 +195,10 @@ void MainWindow::read_only_switch()
     }
 }
 
-/*void MainWindow::on_pushButton_clicked()
-{
-    QString s = ui->lineEdit_2->text();
-    QString ss = "QPushButton  {background-color: " + s + ";} QMainWindow{font-color:red;background-color:"+ s +"}";
-    this->setStyleSheet(ss);
-
-}*/
-
 void MainWindow::on_comboBox_activated(const QString &arg1)
 {
     MainWindow *nw = qobject_cast<MainWindow*>( QApplication::topLevelWidgets()[ 0 ] );
-//QPushButton  {background-color: green;}
+
     if (arg1 == "green")
             nw->setStyleSheet("QMainWindow{background-color: green}");
     else if (arg1 == "red")
