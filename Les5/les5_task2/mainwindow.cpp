@@ -2,6 +2,11 @@
 #include "ui_mainwindow.h"
 #include <QFileDialog>
 
+/*Написать просмотрщик файловой системы.
+ * При выборе каталога выводить список файлов и каталогов внутри выбранного,
+ * Добавить строку навигации, в которой можно указать текущий каталог.
+*/
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
