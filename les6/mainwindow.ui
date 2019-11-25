@@ -37,6 +37,12 @@
     </property>
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
+      <widget class="QPlainTextEdit" name="plainTextEdit"/>
+     </item>
+     <item>
+      <widget class="QTextEdit" name="textEdit"/>
+     </item>
+     <item>
       <layout class="QHBoxLayout" name="horizontalLayout_3">
        <item>
         <widget class="QLabel" name="label_2">
@@ -49,9 +55,6 @@
         <widget class="QLineEdit" name="lineEdit"/>
        </item>
       </layout>
-     </item>
-     <item>
-      <widget class="QPlainTextEdit" name="plainTextEdit"/>
      </item>
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout">
