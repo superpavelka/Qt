@@ -27,7 +27,6 @@ private slots:
     void on_btn_undo_clicked();
     void on_btn_redo_clicked();
     void on_desc_btn_clicked();
-    void on_plainTextEdit_textChanged();
     void read_only_switch();
     void print();
     void newlineToBr();
@@ -36,6 +35,8 @@ private slots:
     //void on_pushButton_clicked();
 
     void on_comboBox_activated(const QString &arg1);
+
+    void on_textEdit_textChanged();
 
 private:
     Ui::MainWindow *ui;

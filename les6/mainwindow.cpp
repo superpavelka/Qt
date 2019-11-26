@@ -20,7 +20,6 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);    
-    ui->plainTextEdit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     ui->centralwidget->setLayout(ui->verticalLayout);
     QMenu *m_menu = new QMenu(this);
     ui->btn_menu->setMenu(m_menu);
@@ -48,7 +47,7 @@ MainWindow::MainWindow(QWidget *parent)
     if (file.open(QIODevice::ReadOnly))
     {
         QByteArray byteArray = file.readAll(); // считываем весь файл
-        ui->plainTextEdit->setPlainText(tr(byteArray.data()));
+        //ui->textEdit->setPlainText(tr(byteArray.data()));
         ui->textEdit->setPlainText(tr(byteArray.data()));
         file.close();
     }
@@ -65,7 +64,7 @@ MainWindow::~MainWindow()
 
     if (file.open(QIODevice::WriteOnly))
     {
-        QString s = ui->plainTextEdit->toPlainText();
+        QString s = ui->textEdit->toPlainText();
         QByteArray barr = s.toUtf8();          // преобразуем строку в
                                                // последовательность байт
                                                // кодировка текста UTF-8
@@ -87,7 +86,7 @@ void MainWindow::on_btn_save_clicked()
 
       if (file.open(QIODevice::WriteOnly))
       {
-          QString s = ui->plainTextEdit->toPlainText();
+          QString s = ui->textEdit->toPlainText();
           QByteArray barr = s.toUtf8();          // преобразуем строку в
                                                  // последовательность байт
                                                  // кодировка текста UTF-8
@@ -120,7 +119,7 @@ void MainWindow::on_btn_open_clicked()
           if (ext == ".original")
           {
             QStringList list = s.split("Author:");
-            ui->plainTextEdit->setPlainText(list[0]);
+            ui->textEdit->setPlainText(list[0]);
             if (list.size() > 1)
                 ui->lineEdit->setText(list[1]);
             else
@@ -128,7 +127,7 @@ void MainWindow::on_btn_open_clicked()
           }
           else
           {
-              ui->plainTextEdit->setPlainText(s);
+              ui->textEdit->setPlainText(s);
               ui->lineEdit->setText("");
           }
           file.close();
@@ -147,7 +146,7 @@ void MainWindow::on_btn_undo_clicked()
         {
             cur_undo_pos--;
             QString s = undo_list.at(cur_undo_pos);
-            ui->plainTextEdit->setPlainText(s);
+            ui->textEdit->setPlainText(s);
         }
     }
 }
@@ -162,7 +161,7 @@ void MainWindow::on_btn_redo_clicked()
         {
             cur_undo_pos++;
             QString s = undo_list.at(cur_undo_pos);
-            ui->plainTextEdit->setPlainText(s);
+            ui->textEdit->setPlainText(s);
         }
     }
 
@@ -179,41 +178,19 @@ void MainWindow::on_desc_btn_clicked()
     msgBox.exec();
 }
 
-void MainWindow::on_plainTextEdit_textChanged()
-{
-    if (!read_only)
-    {
-        if (edit)
-        {
-            QString s = ui->plainTextEdit->toPlainText();
-            if (!undo_list.isEmpty() && undo_list.last() != s)
-            {
-                undo_list.append(s);
-                cur_undo_pos++;
-            }
-            else if (undo_list.isEmpty())
-            {
-                undo_list.append(s);
-                cur_undo_pos = 0;
-            }
-        }
-    }
-    edit = true;
-}
-
 void MainWindow::read_only_switch()
 {
     if (!read_only)
     {
         read_only = true;
         roAct->setText("Только чтение(ВЫКЛ)");
-        ui->plainTextEdit->setReadOnly(true);
+        ui->textEdit->setReadOnly(true);
     }
     else
     {
         read_only = false;
         roAct->setText("Только чтение(ВКЛ)");
-        ui->plainTextEdit->setReadOnly(false);
+        ui->textEdit->setReadOnly(false);
     }
 }
 
@@ -285,52 +262,13 @@ void MainWindow::paragraphMode()
 }
 void MainWindow::print()
 {
-    QString printStr = ui->plainTextEdit->toPlainText();
-
-    QChar *list = printStr.data();
-    QStringList strlst;
-    int line = 0, cursor = 0;
-    for (bool getst = true;getst;)
-    {
-        int index = printStr.indexOf("\n", cursor);
-        QString s = "";
-        if (index == -1)
-        {
-           getst = false;
-           s.append(&list[cursor], printStr.length() - cursor);
-        }
-        else s.append(&list[cursor], index - cursor);
-        cursor = index + 1;
-        strlst << s;
-    }
-
+    QTextDocument* doc = ui->textEdit->document();
     QPrinter printer;
     QPrintDialog dlg(&printer, this);
     dlg.setWindowTitle("Print");
     if (dlg.exec() != QDialog::Accepted)
         return;
-    QPainter painter;
-    painter.begin(&printer);
-    int w = painter.window().width();
-    int h = painter.window().height();
-    int amount = strlst.count();
-    QFont font = painter.font();
-    QFontMetrics fmetrics(font);
-    for (int i = 0; i < amount; i++)
-    {
-        QPointF pf;
-        pf.setX(10);
-        pf.setY(line);
-        painter.drawText(pf, strlst.at(i));
-        line += fmetrics.height();
-        if (h - line <= fmetrics.height())
-        {
-            printer.newPage();
-            line = 0;
-        }
-     }
-    painter.end();
-
+    doc->print(&printer);
 }
 
 void MainWindow::tableIns()
@@ -361,4 +299,26 @@ void MainWindow::on_comboBox_activated(const QString &arg1)
         this->setStyleSheet("");
         //nw->setStyleSheet("QPushButton {background-color: gray;}QMainWindow{background-color: gray}");
     }
+}
+
+void MainWindow::on_textEdit_textChanged()
+{
+    if (!read_only)
+    {
+        if (edit)
+        {
+            QString s = ui->textEdit->toPlainText();
+            if (!undo_list.isEmpty() && undo_list.last() != s)
+            {
+                undo_list.append(s);
+                cur_undo_pos++;
+            }
+            else if (undo_list.isEmpty())
+            {
+                undo_list.append(s);
+                cur_undo_pos = 0;
+            }
+        }
+    }
+    edit = true;
 }
