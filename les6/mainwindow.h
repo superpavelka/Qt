@@ -15,7 +15,7 @@ class MainWindow : public QMainWindow
 public:
     bool edit;
     bool read_only;
-    bool htmlMode;
+    bool hrMode;
     bool parMode;
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();

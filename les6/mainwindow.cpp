@@ -9,6 +9,7 @@
 #include <QPainter>
 #include <QInputDialog>
 #include <QMdiSubWindow>
+#include <QTextList>
 /*
 Добавить меню в текстовый редактор.
 Добавить в текстовый редактор печать, класс печати. Учтите, что строка может не помещаться по ширине страницы. Реализовать разбиение текста на дополнительные строки.
@@ -25,7 +26,7 @@ MainWindow::MainWindow(QWidget *parent)
     mdiArea = new QMdiArea(this);
     QMenu *m_menu = new QMenu(this);
     ui->btn_menu->setMenu(m_menu);
-    htmlMode = false;
+    hrMode = false;
     parMode = false;
     roAct = new QAction("Только чтение(ВКЛ)", m_menu);
     printAct = new QAction("Печать", m_menu);
@@ -51,7 +52,7 @@ MainWindow::MainWindow(QWidget *parent)
     {
         QByteArray byteArray = file.readAll(); // считываем весь файл
         //ui->textEdit->setPlainText(tr(byteArray.data()));
-        ui->textEdit->setPlainText(tr(byteArray.data()));
+        ui->textEdit->setHtml(tr(byteArray.data()));
         file.close();
     }
     ui->comboBox->addItem("default");
@@ -67,7 +68,8 @@ MainWindow::~MainWindow()
 
     if (file.open(QIODevice::WriteOnly))
     {
-        QString s = ui->textEdit->toPlainText();
+        //QString s = ui->textEdit->toPlainText();
+        QString s = ui->textEdit->toHtml();
         QByteArray barr = s.toUtf8();          // преобразуем строку в
                                                // последовательность байт
                                                // кодировка текста UTF-8
@@ -93,7 +95,8 @@ void MainWindow::on_btn_save_clicked()
 
       if (file.open(QIODevice::WriteOnly))
       {
-          QString s = te->toPlainText();
+          //QString s = te->toPlainText();
+          QString s = te->toHtml();
           QByteArray barr = s.toUtf8();          // преобразуем строку в
                                                  // последовательность байт
                                                  // кодировка текста UTF-8
@@ -130,7 +133,8 @@ void MainWindow::on_btn_open_clicked()
           if (ext == ".original")
           {
             QStringList list = s.split("Author:");
-            te->setPlainText(list[0]);
+            //te->setPlainText(list[0]);
+            te->setHtml(list[0]);
             if (list.size() > 1)
                 ui->lineEdit->setText(list[1]);
             else
@@ -138,7 +142,8 @@ void MainWindow::on_btn_open_clicked()
           }
           else
           {
-              te->setPlainText(s);
+              te->setHtml(s);
+              //te->setPlainText(s);
               ui->lineEdit->setText("");
           }
           file.close();
@@ -182,21 +187,26 @@ void MainWindow::newlineToBr()
     QMdiSubWindow *activeSubWindow = mdiArea->activeSubWindow();
     QWidget *wgt = activeSubWindow->widget();
     QTextEdit* te = (QTextEdit*)wgt;
-    if (!htmlMode)
+    if (!hrMode)
     {
-        QString s =te->toPlainText();
-        s.replace("\n","<hr>");
+        //QString s =te->toPlainText();
+        QString s =te->toHtml();
+        //s.replace("\n","<hr>");
+        s.replace("<br /></p>","</p><hr>");
         te->setHtml(s);
         hrAct->setText("Горизонтальная линия при переходе на новую строку(ВЫКЛ)");
-        htmlMode = true;
+        hrMode = true;
     }
     else
     {
-        QString s = te->toPlainText();
-        s.replace("<hr>","\n");
-        te->setPlainText(s);
+        //QString s = te->toPlainText();
+        QString s =te->toHtml();
+        //s.replace("<hr>","\n");
+        s.replace("<hr />","");
+        //te->setPlainText(s);
+        te->setHtml(s);
         hrAct->setText("Горизонтальная линия при переходе на новую строку(ВКЛ)");
-        htmlMode = false;
+        hrMode = false;
     }
 }
 
@@ -205,52 +215,53 @@ void MainWindow::paragraphMode()
     QMdiSubWindow *activeSubWindow = mdiArea->activeSubWindow();
     QWidget *wgt = activeSubWindow->widget();
     QTextEdit* te = (QTextEdit*)wgt;
+    QTextCursor cursor = te->textCursor();
+    QTextListFormat::Style style = QTextListFormat::ListStyleUndefined;
+    int styleIndex = 0;
     if (!parMode)
     {
-        QString s = te->toPlainText();
-        int c = 1;
-        if (s.size() && s[0]!="\n")
-        {
-        s.insert(0,QString::number(c) + ". ");
-        c++;
-        }
-        for (int i=0;i<s.size();i++)
-        {
-            if (s[i] == "\n" && ((i+1) < s.size()) && s[i+1] != "\n")
-            {
-                s.insert(i+1,QString::number(c) + ". ");
-                c++;
-            }
-        }
-        te->setPlainText(s);
+        style = QTextListFormat::ListDecimal;
+        styleIndex = 4;
         parMode = true;
         parAct->setText("Нумерация абзацев(ВЫКЛ)");
     }
     else
     {
-       QString s = te->toPlainText();
-       if (s.size() > 3 && s[0] == "1" && s[1] == ".")
-           s.remove(0,3);
-       for (int i=0;i<s.size();i++)
-       {
-           if (s[i] == "\n" && ((i+1) < s.size()) && s[i+1] != "\n")
-           {
-               if ((i+1) < s.size())
-               {
-                   while (true)
-                   {
-                       s.remove(i+1,1);
-                       if (s[i+1] == ".")
-                           break;
-                   }
-                   s.remove(i+1,2);
-               }
-           }
-       }
-       te->setPlainText(s);
-       parMode = false;
-       parAct->setText("Нумерация абзацев(ВКЛ)");
+        parAct->setText("Нумерация абзацев(ВКЛ)");
+        parMode = false;
     }
+    cursor.beginEditBlock();
+
+    QTextBlockFormat blockFmt = cursor.blockFormat();
+
+    if (style == QTextListFormat::ListStyleUndefined) {
+        blockFmt.setObjectIndex(-1);
+        int headingLevel = styleIndex >= 9 ? styleIndex - 9 + 1 : 0; // H1 to H6, or Standard
+        blockFmt.setHeadingLevel(headingLevel);
+        cursor.setBlockFormat(blockFmt);
+
+        int sizeAdjustment = headingLevel ? 4 - headingLevel : 0; // H1 to H6: +3 to -2
+        QTextCharFormat fmt;
+        fmt.setFontWeight(headingLevel ? QFont::Bold : QFont::Normal);
+        fmt.setProperty(QTextFormat::FontSizeAdjustment, sizeAdjustment);
+        cursor.select(QTextCursor::LineUnderCursor);
+        cursor.mergeCharFormat(fmt);
+        te->mergeCurrentCharFormat(fmt);
+    } else {
+        QTextListFormat listFmt;
+        if (cursor.currentList()) {
+            listFmt = cursor.currentList()->format();
+        } else {
+            listFmt.setIndent(blockFmt.indent() + 1);
+            blockFmt.setIndent(0);
+            cursor.setBlockFormat(blockFmt);
+        }
+        listFmt.setStyle(style);
+        cursor.createList(listFmt);
+    }
+
+    cursor.endEditBlock();
+
 }
 void MainWindow::print()
 {
