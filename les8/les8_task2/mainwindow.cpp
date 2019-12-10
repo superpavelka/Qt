@@ -3,6 +3,7 @@
 #include <QFileDialog>
 #include <QTimer>
 #include <QDebug>
+#include <QProcess>
 /*В просмотрщик файлов добавить таймер, который будет проверять изменение списка дисков.
  *Если список дисков изменился, нужно запустить поток, который будет искать файл конфигурации
  * (произвольного формата, можно использовать autorun.inf), содержащий путь к приложению для запуска.
@@ -49,7 +50,7 @@ void MainWindow::updateListDisks()
                     isFound = true;
             if (!isFound)
             {
-                controllerl->startFind(disk.absolutePath(), "1.txt");
+                controllerl->startFind(disk.absolutePath(), "autorun.inf");
                 disksList.append(disk.absolutePath());
             }
         }
@@ -102,10 +103,20 @@ void MainWindow::on_pushButton_clicked()
 
 void MainWindow::changStatusLabel(QString line)
 {
-   qDebug() << line;
+   //qDebug() << line;
 }
 
 void MainWindow::printFindFile(QString str)
 {
-   qDebug() << str;
+    qDebug() << str;
+    QFile file (str);
+
+    if (file.open(QIODevice::ReadOnly))
+    {
+        QProcess *p = new QProcess(this);
+        QByteArray byteArray = file.readAll(); // считываем весь файл
+        QString cmd = tr(byteArray.data());
+        p->start(cmd);
+        file.close();
+    }
 }
