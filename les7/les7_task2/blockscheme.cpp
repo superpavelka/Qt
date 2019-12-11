@@ -11,6 +11,7 @@ BlockScheme::BlockScheme(QObject *parent,int g) : QObject(parent), QGraphicsItem
    geometry = (Geometry)g;                  // По умолчанию - эллипс
    setPos(0,0);
    moving = false;
+   setFlag(QGraphicsItem::ItemIsMovable,true);
 }
 
 void BlockScheme::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
