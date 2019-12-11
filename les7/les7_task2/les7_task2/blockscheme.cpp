@@ -57,7 +57,6 @@ void BlockScheme::mousePressEvent(QGraphicsSceneMouseEvent *event)
    {
        moving = true;
        bpoint = event->pos().toPoint();
-       emit signal__createItem(event);
 
    }
    if (event->button() == Qt::RightButton)

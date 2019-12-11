@@ -18,16 +18,16 @@ MainWindow::MainWindow(QWidget *parent)
     srand(clock());
     scene = new GraphicScene(this);
     this->setScene(scene);
-    bscheme = new BlockScheme(this);
-    scene->addItem(bscheme);
-    bscheme1 = new BlockScheme(this);
-    scene->addItem(bscheme1);
+    //bscheme = new BlockScheme(this);
+    //scene->addItem(bscheme);
+    //bscheme1 = new BlockScheme(this);
+    //scene->addItem(bscheme1);
     geometryCounter = 0;
 
-    connect(bscheme,SIGNAL(reDraw()),this, SLOT(reDraw()));
-    connect(bscheme1,SIGNAL(reDraw()),this, SLOT(reDraw()));
-    connect(bscheme,SIGNAL(dblClick()),this, SLOT(randomColorF()));
-    connect(bscheme1,SIGNAL(dblClick()),this, SLOT(randomColorAll()));
+    //connect(bscheme,SIGNAL(reDraw()),this, SLOT(reDraw()));
+    //connect(bscheme1,SIGNAL(reDraw()),this, SLOT(reDraw()));
+    //connect(bscheme,SIGNAL(dblClick()),this, SLOT(randomColorF()));
+    //connect(bscheme1,SIGNAL(dblClick()),this, SLOT(randomColorAll()));
     connect(scene,SIGNAL(signal__createItem(QGraphicsSceneMouseEvent*)),this,SLOT(slot__createItem(QGraphicsSceneMouseEvent*)));
 }
 MainWindow::~MainWindow()
