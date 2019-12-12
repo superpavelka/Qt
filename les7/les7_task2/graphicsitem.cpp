@@ -11,6 +11,7 @@ GraphicsItem::GraphicsItem(QObject *parent,int g) : QObject(parent), QGraphicsIt
    geometry = (Geometry)g;                  // По умолчанию - эллипс
    setPos(0,0);
    moving = false;
+   rotate = false;
    setFlag(QGraphicsItem::ItemIsMovable,true);
 }
 
@@ -68,6 +69,10 @@ void GraphicsItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
        this->deleteLater();
        emit reDraw();                            // переотрисовка
    }
+   if (event->button() == Qt::MiddleButton)
+   {
+       rotate = true;
+   }
 }
 
 void GraphicsItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
@@ -78,6 +83,10 @@ void GraphicsItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
                                                   // перемещение
        emit reDraw();
    }
+   if (event->button() == Qt::MiddleButton)
+   {
+       rotate = false;
+   }
 }
 
 void GraphicsItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
@@ -85,7 +94,6 @@ void GraphicsItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
    if (moving)                                    // Если активен флаг
                                                   // перемещения
    {
-// Вычисляем вектор смещения
        QPoint p = event->pos().toPoint() - bpoint;
        x += p.x();
        y += p.y();
@@ -93,18 +101,12 @@ void GraphicsItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
                                                   // курсора
        emit reDraw();                             // Переотрисовываем
    }
-}
-
-void GraphicsItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
-{
-   if (event->button() == Qt::LeftButton)
+   if (rotate)
    {
-       emit dblClick();                            // Отправляем сигнал
-                                                   // о двойном клике
+       QPoint p = event->pos().toPoint() - bpoint;
+       this->setRotation((-p.x()/5) - (-p.y()/5));
+       emit reDraw();
    }
 }
 
-/*void GraphicsItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
-{
-    emit reDraw();
-}*/
+

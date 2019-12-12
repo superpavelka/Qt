@@ -27,6 +27,7 @@ private:
    Geometry geometry;
    QPoint bpoint;
    bool moving;
+   bool rotate;
    QBrush brush;
 public:
    explicit GraphicsItem(QObject *parent = nullptr,int g = 0);
@@ -35,7 +36,6 @@ protected:
    void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
    void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;
-   void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) override;
 };
 
 

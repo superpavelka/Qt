@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include "graphicsview.h"
 #include <QGraphicsScene>
+#include <QWheelEvent>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -24,6 +25,7 @@ private:
     int geometryCounter;
 protected:
     void mousePressEvent(QMouseEvent  *event) override;
+    void wheelEvent(QWheelEvent  *event) override;
 private slots:
     void reDraw();
 };

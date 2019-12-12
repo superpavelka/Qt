@@ -11,6 +11,10 @@
  * При щелчке правой кнопки мыши по элементу он должен удалиться.
  * Должна быть возможность перемещать элементы, с помощью зажатой левой кнопкой мыши.
  */
+/*
+3. * Для предыдущей задачи добавить:
+a. возможность приближать и удалять изображение путем прокручивания колеса мыши и нажатия клавиш + или - соответственно.
+b. Возможность вращать фигуру вокруг своего центра зажатым колесом мыши.*/
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -32,7 +36,7 @@ MainWindow::~MainWindow()
 void MainWindow::mousePressEvent(QMouseEvent *event)
 {
 
-   if ((event->button() ) == Qt::LeftButton)
+   if (event->button() == Qt::LeftButton)
    {
        GraphicsItem *item;
        if (geometryCounter == 3)
@@ -45,7 +49,19 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
        item->setPos(event->pos().x(),event->pos().y());
        connect(item, SIGNAL(reDraw()),this,SLOT(reDraw()));
    }
+}
 
+void MainWindow::wheelEvent(QWheelEvent *event)
+{
+        const double scaleFactor = 1.15;
+        if (event->delta() > 0)
+        {
+            view->scale(scaleFactor, scaleFactor);
+        }
+        else
+        {
+            view->scale(1.0 / scaleFactor, 1.0 / scaleFactor);
+        }
 }
 
 void MainWindow::reDraw()
