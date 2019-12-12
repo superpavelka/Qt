@@ -1,29 +1,30 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "blockscheme.h"
-#include "graphicscene.h"
+#include <QMainWindow>
+#include "graphicsview.h"
 #include <QGraphicsScene>
-#include <QGraphicsView>
 
-class MainWindow : public QGraphicsView
+QT_BEGIN_NAMESPACE
+namespace Ui { class MainWindow; }
+QT_END_NAMESPACE
+
+class MainWindow : public QMainWindow
 {
-   Q_OBJECT
+    Q_OBJECT
 
 public:
-   MainWindow(QWidget *parent = 0);
-   ~MainWindow();
+    MainWindow(QWidget *parent = nullptr);
+    ~MainWindow();
+    QGraphicsScene *scene;
 private:
-   QGraphicsView *view;
-   GraphicScene *scene;
-   BlockScheme *bscheme,*bscheme1;
-   int geometryCounter;
+    Ui::MainWindow *ui;
+    GraphicsView *view;
+
+    int geometryCounter;
 protected:
+    void mousePressEvent(QMouseEvent  *event) override;
 private slots:
     void reDraw();
-    void randomColorF();
-    void randomColorAll();
-    void slot__createItem(QGraphicsSceneMouseEvent *event);
 };
-
 #endif // MAINWINDOW_H

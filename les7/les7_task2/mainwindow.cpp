@@ -1,7 +1,7 @@
 #include "mainwindow.h"
-#include <QMessageBox>
-#include <QGraphicsSceneMouseEvent>
-
+#include "ui_mainwindow.h"
+#include <QMouseEvent>
+#include "graphicsitem.h"
 
 /*Используя графическое представление, создать программу-окно, на которое можно добавлять
  * графические элементы щелчком левой кнопки мыши на пустой области окна.
@@ -13,25 +13,38 @@
  */
 
 MainWindow::MainWindow(QWidget *parent)
-   : QGraphicsView(parent)
+    : QMainWindow(parent)
+    , ui(new Ui::MainWindow)
 {
-    srand(clock());
-    scene = new GraphicScene(this);
-    this->setScene(scene);
-    //bscheme = new BlockScheme(this);
-    //scene->addItem(bscheme);
-    //bscheme1 = new BlockScheme(this);
-    //scene->addItem(bscheme1);
+    ui->setupUi(this);
+    view = new GraphicsView();
+    scene = new QGraphicsScene();
+    view->setScene(scene);
+    this->setCentralWidget(view);
     geometryCounter = 0;
-
-    //connect(bscheme,SIGNAL(reDraw()),this, SLOT(reDraw()));
-    //connect(bscheme1,SIGNAL(reDraw()),this, SLOT(reDraw()));
-    //connect(bscheme,SIGNAL(dblClick()),this, SLOT(randomColorF()));
-    //connect(bscheme1,SIGNAL(dblClick()),this, SLOT(randomColorAll()));
-    connect(scene,SIGNAL(signal__createItem(QGraphicsSceneMouseEvent*)),this,SLOT(slot__createItem(QGraphicsSceneMouseEvent*)));
 }
+
 MainWindow::~MainWindow()
 {
+    delete ui;
+}
+
+void MainWindow::mousePressEvent(QMouseEvent *event)
+{
+
+   if ((event->button() ) == Qt::LeftButton)
+   {
+       GraphicsItem *item;
+       if (geometryCounter == 3)
+           geometryCounter = 0;
+       item = new GraphicsItem(this,geometryCounter);
+       geometryCounter++;
+       item->setBrush(QBrush(QColor(rand() % 256,rand() % 256,rand() % 256)));
+       scene->addItem(item);
+       //QPoint point = event->pos();
+       item->setPos(event->pos().x(),event->pos().y());
+       connect(item, SIGNAL(reDraw()),this,SLOT(reDraw()));
+   }
 
 }
 
@@ -39,29 +52,4 @@ void MainWindow::reDraw()
 {
     scene->update();
     update();
-}
-
-void MainWindow::randomColorF()
-{
-    bscheme->setBrush(QBrush(QColor(rand() % 256,rand() % 256,rand() % 256)));
-}
-
-void MainWindow::randomColorAll()
-{
-    bscheme->setBrush(QBrush(QColor(rand() % 256,rand() % 256,rand() % 256)));
-    bscheme1->setBrush(QBrush(QColor(rand() % 256,rand() % 256,rand() % 256)));
-}
-
-void MainWindow::slot__createItem(QGraphicsSceneMouseEvent *event)
-{
-    BlockScheme *item;
-    if (geometryCounter == 3)
-        geometryCounter = 0;
-    item = new BlockScheme(this,geometryCounter);
-    geometryCounter++;
-    item->setBrush(QBrush(QColor(rand() % 256,rand() % 256,rand() % 256)));
-    scene->addItem(item);
-    item->setPos(event->scenePos());
-
-    //emit itemInserted(item);
 }

@@ -1,5 +1,5 @@
-#ifndef BLOCKSCHEME_H
-#define BLOCKSCHEME_H
+#ifndef GRAPHICSITEM_H
+#define GRAPHICSITEM_H
 
 #include <QObject>
 #include <QGraphicsItem>
@@ -7,7 +7,7 @@
 #include <QBrush>
 #include <QGraphicsScene>
 
-class BlockScheme : public QObject, public QGraphicsItem
+class GraphicsItem : public QObject, public QGraphicsItem
 {
    Q_OBJECT
    Q_PROPERTY(QBrush brush)
@@ -16,20 +16,21 @@ public:
 signals:
    void reDraw();
    void dblClick();
-   void signal__createItem(QGraphicsSceneMouseEvent *event);
+   //void signal__createItem(QGraphicsSceneMouseEvent *event);
 public slots:
 private:
    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
    QRectF boundingRect() const override;
 private:
    enum Geometry {RECTANGLE, ELLIPS, STAR};
-   int x, y;
+
    Geometry geometry;
    QPoint bpoint;
    bool moving;
    QBrush brush;
 public:
-   explicit BlockScheme(QObject *parent = nullptr,int g = 0);
+   explicit GraphicsItem(QObject *parent = nullptr,int g = 0);
+   int x, y;
 protected:
    void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
@@ -37,4 +38,5 @@ protected:
    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) override;
 };
 
-#endif // BLOCKSCHEME_H
+
+#endif // GRAPHICSITEM_H

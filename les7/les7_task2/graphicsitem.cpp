@@ -1,8 +1,8 @@
-#include "blockscheme.h"
+#include "graphicsitem.h"
 #include <QPainter>
 #include <QGraphicsSceneMouseEvent>
 
-BlockScheme::BlockScheme(QObject *parent,int g) : QObject(parent), QGraphicsItem()
+GraphicsItem::GraphicsItem(QObject *parent,int g) : QObject(parent), QGraphicsItem()
 {
    x = 0;
    y = 0;
@@ -14,7 +14,7 @@ BlockScheme::BlockScheme(QObject *parent,int g) : QObject(parent), QGraphicsItem
    setFlag(QGraphicsItem::ItemIsMovable,true);
 }
 
-void BlockScheme::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+void GraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
    painter->setBrush(brush);
    if (geometry == Geometry::ELLIPS)
@@ -45,13 +45,16 @@ void BlockScheme::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
    Q_UNUSED(widget)
 }
 
-QRectF BlockScheme::boundingRect() const         // Обязателен для
+QRectF GraphicsItem::boundingRect() const         // Обязателен для
                                                  // переопределения
 {
-   return QRectF(x, y, 200, 100);                // Текущие координаты
+    if (geometry == Geometry::ELLIPS || geometry == Geometry::RECTANGLE)
+        return QRectF(x, y, 200, 100);                // Текущие координаты
+    else
+        return QRectF(x,y,80,80);
 }
 
-void BlockScheme::mousePressEvent(QGraphicsSceneMouseEvent *event)
+void GraphicsItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
 
    if (event->button() == Qt::LeftButton)
@@ -62,15 +65,12 @@ void BlockScheme::mousePressEvent(QGraphicsSceneMouseEvent *event)
    }
    if (event->button() == Qt::RightButton)
    {
-       if (geometry == Geometry::ELLIPS)
-       {
-           geometry = Geometry::RECTANGLE;
-       } else geometry = Geometry::ELLIPS;
+       this->deleteLater();
        emit reDraw();                            // переотрисовка
    }
 }
 
-void BlockScheme::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
+void GraphicsItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
    if (event->button() == Qt::LeftButton)
    {
@@ -80,7 +80,7 @@ void BlockScheme::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
    }
 }
 
-void BlockScheme::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
+void GraphicsItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
    if (moving)                                    // Если активен флаг
                                                   // перемещения
@@ -95,7 +95,7 @@ void BlockScheme::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
    }
 }
 
-void BlockScheme::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
+void GraphicsItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
    if (event->button() == Qt::LeftButton)
    {
@@ -103,3 +103,8 @@ void BlockScheme::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
                                                    // о двойном клике
    }
 }
+
+/*void GraphicsItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
+{
+    emit reDraw();
+}*/
