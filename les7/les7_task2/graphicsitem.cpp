@@ -104,7 +104,7 @@ void GraphicsItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
    if (rotate)
    {
        QPoint p = event->pos().toPoint() - bpoint;
-       this->setRotation((-p.x()/5) - (-p.y()/5));
+       this->setRotation(this->rotation() + 10);
        emit reDraw();
    }
 }
