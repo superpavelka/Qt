@@ -15,14 +15,14 @@ Rectangle {
    Rectangle
    {
        color: 'white'
-       x:id.x
-       y:id.y
-       width: id.width
-       height: id.height
+       x:task_id.x
+       y:task_id.y
+       width: task_id.width
+       height: task_id.height
    }
 
    TextEdit{
-       id:id
+       id:task_id
        y:10
        x:100
        width: 400
@@ -89,14 +89,14 @@ Rectangle {
    Rectangle
    {
        color: 'white'
-       x:date_beg.x
-       y:date_beg.y
-       width: date_beg.width
-       height: date_beg.height
+       x:datebeg.x
+       y:datebeg.y
+       width: datebeg.width
+       height: datebeg.height
    }
 
    TextEdit{
-       id:date_beg
+       id:datebeg
        y:125
        x:100
        width: 400
@@ -110,11 +110,11 @@ Rectangle {
        text: qsTr("Add")
        onClicked:
        {
-           var id = id.text
-           var task = task.text
-           var desc = desc.text
-           var date_beg = date_beg.text
-           mainrect.parent.add(id, task, desc,date_beg)
+           var task_id_ = task_id.text
+           var task_ = task.text
+           var desc_ = desc.text
+           var date_beg_ = datebeg.text
+           mainrect.parent.add(task_id_, task_, desc_,date_beg_)
        }
        Component.onCompleted: {
            x = mainrect.width - 100;

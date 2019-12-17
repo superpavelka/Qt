@@ -20,7 +20,7 @@ private:
    QFile *file;
 signals:
    void initEnd(bool succeed);
-   void loadTown(QString id, QString task, QString desc, QString date_beg);
+   void loadTown(QString task_id, QString task, QString desc, QString datebeg);
 private slots:
 };
 

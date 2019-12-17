@@ -3,13 +3,14 @@ import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.5
 
 Rectangle {
-   property string id: ""    // Свойства объекта
+   property string task_id: ""    // Свойства объекта
    property string task: ""
    property string desc: ""
+   property string datebeg: ""
 
-function setValue(id, task,desc)
+function setValue(task_id, task,desc)
 {
-   console.log(id + task + desc)
+   console.log(task_id + task + desc)
 }
 
 id: comps
@@ -17,8 +18,8 @@ color: '#eeeee4'
 width: 500
 height: 150
    Text {
-       id:id
-       text: id
+       id:task_id
+       text: task_id
        y:10
    }
    Text {
@@ -57,7 +58,7 @@ MouseArea {
        console.log(component)
        var obj = component.createObject(AboutWindow)
        console.log(obj)
-       obj.setInformation(id, task, desc, datebeg)
+       obj.setInformation(task_id, task, desc, datebeg)
        obj.show()
 
    }

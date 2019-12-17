@@ -33,7 +33,7 @@ void BaseReader::getNextRecord()                              // Читаем з
    QByteArray b;
    b.resize(len);
    stream.readRawData(b.data(), len);
-   QString id = QString::fromUtf8(b);
+   QString task_id = QString::fromUtf8(b);
 
    stream.readRawData((char*)&len, sizeof len);
    b.resize(len);
@@ -53,15 +53,15 @@ void BaseReader::getNextRecord()                              // Читаем з
    stream.readRawData((char*)&len, sizeof len);
    b.resize(len);
    stream.readRawData(b.data(), len);
-   QString date_beg = QString::fromUtf8(b);
+   QString datebeg = QString::fromUtf8(b);
 
-   emit loadTown(id,task,desc,date_beg);
+   emit loadTown(task_id,task,desc,datebeg);
 }
 
-void BaseReader::writeNewInformation(QString id, QString task, QString desc, QString date_beg) // Записываем
+void BaseReader::writeNewInformation(QString task_id, QString task, QString desc, QString datebeg) // Записываем
 {
    QDataStream stream(file);
-   auto bytes = id.toUtf8();
+   auto bytes = task_id.toUtf8();
    int len = bytes.length();
    stream.writeRawData((char*)&len, sizeof len);
    stream.writeRawData(bytes.data(), len);
@@ -73,7 +73,7 @@ void BaseReader::writeNewInformation(QString id, QString task, QString desc, QSt
    len = bytes.length();
    stream.writeRawData((char*)&len, sizeof len);
    stream.writeRawData(bytes.data(), len);
-   bytes = date_beg.toUtf8();
+   bytes = datebeg.toUtf8();
    len = bytes.length();
    stream.writeRawData((char*)&len, sizeof len);
    stream.writeRawData(bytes.data(), len);
