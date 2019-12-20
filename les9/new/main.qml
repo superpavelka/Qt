@@ -40,15 +40,15 @@ Window {
               loader.getNextRecord()
             } else Qt.quit()
         }
-        /*onLoad:
+        onLoad:
         {
-            var total = ts + 'textEdit.text:"' + id + '";textEdit1:"' + task +
-                             '";textEdit2:"' + desc + '";textEdit3:"' + date_beg +
-                             '";textEdit4:"' + date_end + '";textEdit5:"' + prog +'";}'
+            var total = ts + 't_id:"' + id + '";task:"' + task +
+                             '";desc:"' + desc + '";date_beg:"' + date_beg +
+                             '";date_end:"' + date_end + '";prog:"' + prog +'";}'
             Qt.createQmlObject(total, list, "obj" + (++num))
             loader.getNextRecord()
 
-        }*/
+        }
     }
 
 

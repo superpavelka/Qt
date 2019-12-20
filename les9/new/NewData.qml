@@ -8,7 +8,12 @@ Rectangle
     y: 0
     height: 20
     id:mainrect
-
+    property string t_id: ""
+    property string task: ""
+    property string desc: ""
+    property string date_beg: ""
+    property string date_end: ""
+    property string prog: ""
     Rectangle {
         id: t_id_rect
         x: 0
@@ -24,7 +29,7 @@ Rectangle
             y: 0
             width: 65
             height: 20
-            text: ""
+            text: t_id
             font.pixelSize: 12
         }
     }
@@ -45,7 +50,7 @@ Rectangle
             y: 0
             width: 119
             height: 20
-            text: qsTr("")
+            text: task
             font.pixelSize: 12
         }
     }
@@ -65,7 +70,7 @@ Rectangle
             y: 0
             width: 176
             height: 18
-            text: qsTr("")
+            text: desc
             font.pixelSize: 12
         }
     }
@@ -85,7 +90,7 @@ Rectangle
             y: 0
             width: 109
             height: 20
-            text: qsTr("")
+            text: date_beg
             font.pixelSize: 12
         }
     }
@@ -105,7 +110,7 @@ Rectangle
             y: 0
             width: 93
             height: 20
-            text: qsTr("")
+            text: date_end
             font.pixelSize: 12
         }
     }
@@ -125,7 +130,7 @@ Rectangle
             y: 0
             width: 79
             height: 20
-            text: qsTr("")
+            text: prog
             font.pixelSize: 12
         }
     }    
