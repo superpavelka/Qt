@@ -18,6 +18,13 @@ void UnitTest::testGUI()
    QTest::keyClick(menu, Qt::Key_Enter);
    QList<QAction *> actions = menu->actions();
 
+   QTest::keyClicks(w.getTextEdit(), "");
+   qDebug() << "Отправляем символ T и тест пройден";
+   QTest::keyClicks(w.getTextEdit(), "T");
+   QCOMPARE(w.getTextEdit()->toPlainText(), "T");
+   qDebug() << "Удаляем символ T";
+   QTest::keyClick(w.getTextEdit(), Qt::Key_Backspace);
+
    foreach (QAction *action, actions) {
        qDebug() << action->text();
        if (action->text() == "Только чтение(ВКЛ)") {
@@ -26,10 +33,11 @@ void UnitTest::testGUI()
            break;
        }
    }
+   qDebug() << "Отправляем строку Test";
    QTest::keyClicks(w.getTextEdit(), "Test");
-   qDebug() << "Отправляем пустую строку и тест пройден";
+   qDebug() << "Проверяем пустую строку и тест пройден";
    QCOMPARE(w.getTextEdit()->toPlainText(), "");
-   qDebug() << "Отправляем строку Test и тест не пройден";
+   qDebug() << "ПРоверяем строку Test и тест не пройден";
    QCOMPARE(w.getTextEdit()->toPlainText(), "Test");
 
    //QTest::qWait(1000);

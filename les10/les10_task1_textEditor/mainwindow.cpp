@@ -52,14 +52,14 @@ MainWindow::MainWindow(QWidget *parent)
     connect(dateInsAct, SIGNAL(triggered()), this, SLOT(dateIns()));
     connect(timeInsAct, SIGNAL(triggered()), this, SLOT(timeIns()));
 
-    QFile file ("./lasttext.txt");
+    /*QFile file ("./lasttext.txt");
     if (file.open(QIODevice::ReadOnly))
     {
         QByteArray byteArray = file.readAll(); // считываем весь файл
         //ui->textEdit->setPlainText(tr(byteArray.data()));
         ui->textEdit->setHtml(tr(byteArray.data()));
         file.close();
-    }
+    }*/
     ui->comboBox->addItem("default");
     ui->comboBox->addItem("green");
     ui->comboBox->addItem("red");
