@@ -16,6 +16,8 @@ public:
    void getNextRecord();
    Q_INVOKABLE
    void writeNewInformation(QString, QString, QString, QString, QString, QString);
+   Q_INVOKABLE
+   void rewriteFile();
 private:
    QFile *file;
 signals:

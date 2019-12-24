@@ -35,10 +35,14 @@ Window {
         onInitEnd:
         {
             if (succeed)
-            {
-              Qt.createQmlObject(ns, list, "objdata")
+            {              
               loader.getNextRecord()
-            } else Qt.quit()
+              Qt.createQmlObject(ns, list, "objdata")
+            }
+            else
+            {
+                Qt.quit()
+            }
         }
         onLoad:
         {
@@ -174,7 +178,7 @@ Window {
             height=30
         }
         onClicked:
-        {
+        {        
            var data_id = list.data[num].data[0].data[0].text
            var data_task = list.data[num].data[1].data[0].text
            var data_desc = list.data[num].data[2].data[0].text
@@ -182,10 +186,34 @@ Window {
            var data_dateend = list.data[num].data[4].data[0].text
            var data_prog = list.data[num].data[5].data[0].text
            loader.writeNewInformation(data_id,data_task,data_desc,data_datebeg,data_dateend,data_prog)
-           Qt.createQmlObject(nc, list, "objdata")
+           Qt.createQmlObject(ns, list, "objdata")
            num++
         }
 
     }
+    Button{
+        id:rewriteData
+        text: qsTr("Перезаписать")
+        Component.onCompleted: {
+            x = 640;
+            y = 30;
+            width=100
+            height=30
+        }
+        onClicked:
+        {
+            loader.rewriteFile()
+            for (var i = 0; i < num;i++)
+            {
+                var data_id = list.data[i].data[0].data[0].text
+                var data_task = list.data[i].data[1].data[0].text
+                var data_desc = list.data[i].data[2].data[0].text
+                var data_datebeg = list.data[i].data[3].data[0].text
+                var data_dateend = list.data[i].data[4].data[0].text
+                var data_prog = list.data[i].data[5].data[0].text
+                loader.writeNewInformation(data_id,data_task,data_desc,data_datebeg,data_dateend,data_prog)
+            }
+        }
 
+    }
 }

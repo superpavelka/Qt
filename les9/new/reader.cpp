@@ -95,3 +95,12 @@ void Reader::writeNewInformation(QString id, QString task, QString desc, QString
    stream.writeRawData((char*)&len, sizeof len);
    stream.writeRawData(bytes.data(), len);
 }
+
+void Reader::rewriteFile()
+{
+    file->remove();
+    file->close();
+    file = new QFile("./testbase.bin", this);
+    file->open(QIODevice::ReadWrite);
+}
+
