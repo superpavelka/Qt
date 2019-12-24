@@ -20,10 +20,10 @@ Window {
 
    property int num: 0
    property NewData newData: value
-   function addThisDate(task_id, task, desc,datebeg)
+   function addThisDate(town, info)
    {
-       loader.writeNewInformation(task_id, task,desc, datebeg)
-       var itog = sc + 'task_id:"' + task_id + '";task:"' + task + '";desc:"' + desc + '";datebeg:"' + datebeg +'"}'
+       loader.writeNewInformation(town, info)
+       var itog = sc + 'townname:"' + town + '";towninfo:"' + info + '"}'
        var el = Qt.createQmlObject(itog, list, "obj" + num++)
 
    }
@@ -38,7 +38,7 @@ Window {
            } else Qt.quit()
        }
        onLoadTown: {
-           var itog = sc + 'task_id:"' + task_id + '";task:"' + task + '";desc:"' + desc + '";datebeg:"' + datebeg +'"}'
+           var itog = sc + 'townname:"' + town + '";towninfo:"' + info + '"}'
                                   // Формируем описание нового элемента
            var el = Qt.createQmlObject(itog, list, "obj" + num++)
            loader.getNextRecord() // Запрашиваем информацию о следующем
@@ -53,12 +53,10 @@ Window {
        Component.onCompleted: loader.loadBase()
        ColumnLayout {
            id:list
-           function add(task_id, task,desc,datebeg) {
-               root.addThisDate(task_id, task,desc,datebeg)
-               console.log(task_id)
-               console.log(task)
-               console.log(desc)
-               console.log(datebeg)
+           function add(town, info) {
+               root.addThisDate(town, info)
+               console.log(town)
+               console.log(info)
            }
        }
    }

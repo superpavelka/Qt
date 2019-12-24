@@ -1,8 +1,6 @@
 <RCC>
     <qresource prefix="/">
-        <file>main.qml</file>
-        <file>ElementUser.qml</file>
         <file>NewData.qml</file>
-        <file>AboutWindow.qml</file>
+        <file>main.qml</file>
     </qresource>
 </RCC>

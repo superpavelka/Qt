@@ -1,79 +1,140 @@
 import QtQuick 2.12
+import QtQuick.Window 2.12
 import QtQuick.Controls 2.5
 
-Rectangle {
-   color: '#eeeee4'
-   width: 500
-   height: 300
-   id:mainrect
+Rectangle
+{
+    x: 0
+    y: 0
+    height: 20
+    id:mainrect
+    property string t_id: ""
+    property string task: ""
+    property string desc: ""
+    property string date_beg: ""
+    property string date_end: ""
+    property string prog: ""
+    Rectangle {
+        id: t_id_rect
+        x: 0
+        y: 0
+        width: 65
+        height: 20
+        color: "#ffffff"
+        border.color: "#040404"
 
-   Text {
-       x:10
-       y:10
-       text: qsTr("Name of town")
-   }
-   Rectangle
-   {
-       color: 'white'
-       x:townName.x
-       y:townName.y
-       width: townName.width
-       height: townName.height
-   }
+        TextEdit {
+            id: textEdit
+            x: 0
+            y: 0
+            width: 65
+            height: 20
+            text: t_id
+            font.pixelSize: 12
+        }
+    }
 
-   TextEdit{
-       id:townName
-       y:10
-       x:100
-       width: 400
-       focus: true
-       height: 25
-   }
-   Text {
-       x:10
-       y:40
-       text: qsTr("Information")
-   }
-   Rectangle
-   {
-       color: 'white'
-       x:flick.x
-       y:flick.y
-       width: flick.width
-       height: flick.height
-   }
 
-   Flickable{
-       id:flick
-       x:100
-       y:40
-       width: 400
-       height: 80
-       ScrollBar.vertical: ScrollBar{}
-       TextArea.flickable: TextArea {
-           id:information
-           width: flick.width
-           height: flick.height
-           focus: true
-           wrapMode: TextEdit.Wrap
-           selectByMouse: true
-       }
-   }
+    Rectangle {
+        id: t_task_rect
+        x: 65
+        y: 0
+        width: 119
+        height: 20
+        color: "#ffffff"
+        border.color: "#040404"
 
-   Button{
-       id:addData
-       text: qsTr("Add")
-       onClicked:
-       {
-           var town = townName.text
-           var info = information.text
-           mainrect.parent.add(town, info)
-       }
-       Component.onCompleted: {
-           x = mainrect.width - 100;
-           y = mainrect.height - 30;
-           width=100
-           height=30
-       }
-   }
+        TextEdit {
+            id: textEdit1
+            x: 0
+            y: 0
+            width: 119
+            height: 20
+            text: task
+            font.pixelSize: 12
+        }
+    }
+
+    Rectangle {
+        id: t_desc_rect
+        x: 184
+        y: 0
+        width: 176
+        height: 20
+        color: "#ffffff"
+        border.color: "#040404"
+
+        TextEdit {
+            id: textEdit2
+            x: 0
+            y: 0
+            width: 176
+            height: 18
+            text: desc
+            font.pixelSize: 12
+        }
+    }
+
+    Rectangle {
+        id: t_dateb_rect
+        x: 360
+        y: 0
+        width: 109
+        height: 20
+        color: "#ffffff"
+        border.color: "#040404"
+
+        TextEdit {
+            id: textEdit3
+            x: 0
+            y: 0
+            width: 109
+            height: 20
+            text: date_beg
+            font.pixelSize: 12
+        }
+    }
+
+    Rectangle {
+        id: t_datee_rect
+        x: 468
+        y: 0
+        width: 93
+        height: 20
+        color: "#ffffff"
+        border.color: "#040404"
+
+        TextEdit {
+            id: textEdit4
+            x: 0
+            y: 0
+            width: 93
+            height: 20
+            text: date_end
+            font.pixelSize: 12
+        }
+    }
+
+    Rectangle {
+        id: t_prog_rect
+        x: 561
+        y: 0
+        width: 79
+        height: 20
+        color: "#ffffff"
+        border.color: "#040404"
+
+        TextEdit {
+            id: textEdit5
+            x: 0
+            y: 0
+            width: 79
+            height: 20
+            text: prog
+            font.pixelSize: 12
+        }
+    }    
 }
+
+
+

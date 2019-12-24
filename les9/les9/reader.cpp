@@ -80,17 +80,17 @@ void Reader::writeNewInformation(QString id, QString task, QString desc, QString
    stream.writeRawData((char*)&len, sizeof len);
    stream.writeRawData(bytes.data(), len);
 
-   date_beg = desc.toUtf8();
+   bytes = date_beg.toUtf8();
    len = bytes.length();
    stream.writeRawData((char*)&len, sizeof len);
    stream.writeRawData(bytes.data(), len);
 
-   date_end = desc.toUtf8();
+   bytes = date_end.toUtf8();
    len = bytes.length();
    stream.writeRawData((char*)&len, sizeof len);
    stream.writeRawData(bytes.data(), len);
 
-   prog = desc.toUtf8();
+   bytes = prog.toUtf8();
    len = bytes.length();
    stream.writeRawData((char*)&len, sizeof len);
    stream.writeRawData(bytes.data(), len);
