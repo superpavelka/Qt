@@ -30,6 +30,7 @@ Rectangle
             width: 65
             height: 20
             text: t_id
+            textMargin: 3
             font.pixelSize: 12
         }
     }
@@ -51,6 +52,7 @@ Rectangle
             width: 119
             height: 20
             text: task
+            textMargin: 3
             font.pixelSize: 12
         }
     }
@@ -71,6 +73,7 @@ Rectangle
             width: 176
             height: 18
             text: desc
+            textMargin: 3
             font.pixelSize: 12
         }
     }
@@ -91,6 +94,7 @@ Rectangle
             width: 109
             height: 20
             text: date_beg
+            textMargin: 3
             font.pixelSize: 12
         }
     }
@@ -111,6 +115,7 @@ Rectangle
             width: 93
             height: 20
             text: date_end
+            textMargin: 3
             font.pixelSize: 12
         }
     }
@@ -131,6 +136,7 @@ Rectangle
             width: 79
             height: 20
             text: prog
+            textMargin: 3
             font.pixelSize: 12
         }
     }    
