@@ -13,7 +13,7 @@ void UnitTest::testGUI()
    MainWindow w;
    w.show();
 
-   QTest::keyClicks(w.getPlainTextEdit(), "C:");
+   QTest::keyClicks(w.getPlainTextEdit(), "C:\\");
    qDebug() << "Отправляем строку C: и смотрим содержимое диска C";
    QString s = w.getPlainTextEdit2()->toPlainText();
    qDebug() << s;
