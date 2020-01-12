@@ -8,6 +8,7 @@ Window {
    property string newtableline: 'TaskElement{width:800; height:30;'
    property UserList userlist: null
    property TaskWindow taskWindow:null
+   property NewTask newTask:null
    function loadnext()
    {
        basereader.getNext();
