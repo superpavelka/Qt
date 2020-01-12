@@ -1,8 +1,8 @@
 import QtQuick 2.0
-import QtQuick.Window 2.13
+import QtQuick.Window 2.12
 import QtQuick.Controls 2.5
-import QtQuick 2.13
-import QtQuick.Layouts 1.13
+import QtQuick 2.12
+import QtQuick.Layouts 1.12
 import com.gb.BaseTask 1.0
 Item {
    id: rootItem
