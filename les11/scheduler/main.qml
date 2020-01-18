@@ -45,6 +45,7 @@ Window {
        onEmitNextLine: getNext() // Добавление нового компонента
        onEmitInitBase:
        {
+           taskWindow.close()
            basereader.updateList()
        }
        onAddUserToList:
