@@ -31,6 +31,7 @@ signals:
    void printData(int id, QString task, QString descr, QString begDate, QString endDate, quint32 progress);
    void logMistake(QString msg);
    void emitNextLine();
+   void emitInitBase();
    void addUserToList(QString fio);
    void taskFullInformation(int id, QString task, QString descr, QString begDate, QString endDate, quint32 progress);
    void setAdminModeEditTask();
@@ -38,6 +39,7 @@ signals:
    void adminUserTask(bool active, QString fio, QString login, QString usertask, QString report);
 public slots:
    void initBase();
+   void updateList();
    void getNext();
    void getLine(int id);
    void addNew(QString task, QString descr, QString begData, QString endData, QString admpass);
@@ -46,6 +48,7 @@ public slots:
    void getNextUser();
    void autorization(QString login, QString passwrd);
    void updateTaskData(quint32 id, QString task, QString describe, QString stDate, QString endDate, QString progress);
+   void deleteTaskData(quint32 id);
 
    void getFirstUserTask();
    void getNextUserTask();

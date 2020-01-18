@@ -14,8 +14,7 @@ void BaseTask::initBase()
    database.setDatabaseName("./dbtasks.db");                  // Файл БД
    if (!database.open())                                      // Пытаемся загрузить БД
    {
-       emit statusLoadBase(false, 0, tr("Couldn't open DB")); // Не удалось            // подключиться
-                                                              // к БД
+       emit statusLoadBase(false, 0, tr("Couldn't open DB")); // Не удалось подключиться к БД
    }
    else
    {
@@ -28,7 +27,7 @@ void BaseTask::initBase()
            emit statusLoadBase(false, 0, query.lastError().text()); // Выводим ошибку в консоль через QML
            return;
        }
-// Создаем таблицы 2 и 3
+       // Создаем таблицы 2 и 3
        p = query.exec("create table if not exists UserList(fio varchar(128)not null,login varchar(128) not null,pass varchar(128) not null)");
        p = query.exec("create table if not exists TaskUser(id int not null, login varchar(128)not null, usertask varchar(4096), userreport varchar(4096))");
        query.exec("select count (*) from TaskList");
@@ -50,7 +49,7 @@ void BaseTask::initBase()
            {
                while (query.next())
                {
-// Добавляем в список пользователей уникальное имя пользователя
+                   // Добавляем в список пользователей уникальное имя пользователя
                    listlogins.append(query.value("login").toString());
 
                }
@@ -82,6 +81,41 @@ void BaseTask::getNext()
                                                      }
 }
 
+void BaseTask::updateList()
+{
+    query.exec("select count (*) from TaskList");
+    if (query.next())
+    {
+        quint32 amount = query.value(0).toUInt();
+        listIDTask.clear();
+        listlogins.clear();
+        if (query.exec("select id from TaskList"))
+        {
+            while (query.next())
+            {
+                listIDTask.append(query.value(0).toUInt());
+            }
+        }
+        pos = 0;
+
+        if (query.exec("select login from UserList"))
+        {
+            while (query.next())
+            {
+                // Добавляем в список пользователей уникальное имя пользователя
+                listlogins.append(query.value("login").toString());
+
+            }
+        }
+        upos = 0;                                        //Обнуляем счетчик
+
+        emit statusLoadBase(true, amount, "");
+
+    } else
+    {
+        emit statusLoadBase(false, 0, query.lastError().text());
+    }
+}
 
 void BaseTask::addNew(QString task, QString descr, QString begData, QString endData, QString admpass)
 {
@@ -91,13 +125,10 @@ void BaseTask::addNew(QString task, QString descr, QString begData, QString endD
    quint32 id = 0;
    for (;;id++) // Определяем свободный ID
    {
-       query.exec("select count (*) from TaskList where id=" + QString::number(id));                          // Запрашиваем количество задач
-                                               // с данным ID
+       query.exec("select count (*) from TaskList where id=" + QString::number(id)); // Запрашиваем количество задач с данным ID
        if (query.next())
        {
-           if (!query.value(0).toInt()) break; // Если количество равно 0,
-                                               // используем данный ID для
-                                               // добавляемой задачи
+           if (!query.value(0).toInt()) break; // Если количество равно 0, используем данный ID для добавляемой задачи
        }
    }
    bool corr = query.exec("insert into TaskList VALUES(" +
@@ -106,8 +137,7 @@ void BaseTask::addNew(QString task, QString descr, QString begData, QString endD
               descr + "','" +
               begData + "','" +
               endData + "',0)"
-              );                              // SQL-запрос на добавление
-                                              // строки задачи в таблицу БД
+              );                              // SQL-запрос на добавление строки задачи в таблицу БД
    if (!corr) emit logMistake(query.lastError().text());
    else
    {
@@ -287,6 +317,21 @@ void BaseTask::updateTaskData(quint32 id, QString task, QString describe, QStrin
    {
        emit logMistake(query.lastError().text());
    }
+}
+
+void BaseTask::deleteTaskData(quint32 id)
+{
+    bool res = query.exec("delete from TaskList where id=" + QString::number(id));
+    if (!res)
+    {
+        emit logMistake(query.lastError().text());
+    }
+    bool res2 = query.exec("delete from TaskUser where id=" + QString::number(id));
+    if (!res2)
+    {
+        emit logMistake(query.lastError().text());
+    }
+    emit emitInitBase();
 }
 
 void BaseTask::changeTaskUser(QString login, QString task)

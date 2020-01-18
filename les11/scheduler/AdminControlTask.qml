@@ -26,11 +26,11 @@ Item {
        elem.y = y
        elem.setValue(task, report, fio, login, activ, dbreader)
        dbreader.getNextUserTask()
-   }
+   }    
    Rectangle
    {
        anchors.fill: parent
-
+       id: admin
        Rectangle
        {
            id:adminRect
@@ -153,6 +153,18 @@ Item {
                onClicked:
                {
                    dbreader.updateTaskData(idt, taskEdit.text, describeEdit.text, bedit.text, endedit.text, progredit.text)
+               }
+           }
+
+           Button {
+               x: 549
+               y: 0
+               width: 91
+               height: 30
+               text: "Удалить"
+               onClicked:
+               {
+                    dbreader.deleteTaskData(idt)
                }
            }
        }

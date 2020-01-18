@@ -43,6 +43,10 @@ Window {
            getNext()
        }
        onEmitNextLine: getNext() // Добавление нового компонента
+       onEmitInitBase:
+       {
+           basereader.updateList()
+       }
        onAddUserToList:
        {
            if (userlist != null)
@@ -87,7 +91,7 @@ Window {
    visible: true
    width: 640
    height: 480
-   title: qsTr("Hello World")
+   title: qsTr("Sheduler")
    Component.onCompleted:
    {
        basereader.initBase();   // Загрузка базы заданий
