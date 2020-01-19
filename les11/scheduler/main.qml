@@ -9,6 +9,7 @@ Window {
    property UserList userlist: null
    property TaskWindow taskWindow:null
    property NewTask newTask:null
+   property var tasks : new Array (0)
    function loadnext()
    {
        basereader.getNext();
@@ -39,13 +40,16 @@ Window {
                    + Number(progress) + '%"; y:' + amountTasks * 25 + ';idt:' + id +
                    ';dbreader:basereader' + '}';
            console.log(itog)
-           Qt.createQmlObject(itog, table, "lineTask" + amountTasks++)
+           var newTask = Qt.createQmlObject(itog, table, "lineTask" + amountTasks++)
+           tasks.push(newTask)
            getNext()
        }
        onEmitNextLine: getNext() // Добавление нового компонента
        onEmitInitBase:
        {
            taskWindow.close()
+           for (var i=0; i<tasks.length; i++)
+                       tasks[i].destroy()
            basereader.updateList()
        }
        onAddUserToList:
