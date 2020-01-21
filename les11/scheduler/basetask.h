@@ -31,7 +31,7 @@ signals:
    void printData(int id, QString task, QString descr, QString begDate, QString endDate, quint32 progress);
    void logMistake(QString msg);
    void emitNextLine();
-   void emitInitBase();
+   void emitDelAndUpdate();
    void addUserToList(QString fio);
    void taskFullInformation(int id, QString task, QString descr, QString begDate, QString endDate, quint32 progress);
    void setAdminModeEditTask();
@@ -41,6 +41,8 @@ public slots:
    void initBase();
    void updateList();
    void getNext();
+   int getY();
+   void incY(int dy);
    void getLine(int id);
    void addNew(QString task, QString descr, QString begData, QString endData, QString admpass);
    void addNewUser(QString fio, QString login, QString passwrd, QString apasswrd);
@@ -69,6 +71,7 @@ private:
    quint32 tupos;            // Позиция пользователей, у которых может быть
                              // доступ к задаче
    QString curlogin;
+   int taskY;
 };
 
 #endif // BASETASK_H

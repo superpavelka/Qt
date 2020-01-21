@@ -24,16 +24,16 @@ Item {
        height = 25
        taskText.width = parent.width / 4;
        startText.width = parent.width / 4;
-            endText.width = parent.width / 4;
-            progtxt.width = parent.width / 4;
-            var p = 0;
-            taskText.x = p;
-            p += taskText.width
-            startText.x = p;
-            p += taskText.width
-            endText.x = p;
-            p += taskText.width
-            progtxt.x = p;
+       endText.width = parent.width / 4;
+       progtxt.width = parent.width / 4;
+       var p = 0;
+       taskText.x = p;
+       p += taskText.width
+       startText.x = p;
+       p += taskText.width
+       endText.x = p;
+       p += taskText.width
+       progtxt.x = p;
         }
         TextEdit {
             id:taskText

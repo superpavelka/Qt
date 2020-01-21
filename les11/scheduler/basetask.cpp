@@ -10,6 +10,7 @@ BaseTask::BaseTask(QObject *parent) : QObject(parent)
 
 void BaseTask::initBase()
 {
+   taskY = 0;
    database = QSqlDatabase::addDatabase("QSQLITE");//SQLite-driver
    database.setDatabaseName("./dbtasks.db");                  // Файл БД
    if (!database.open())                                      // Пытаемся загрузить БД
@@ -83,6 +84,7 @@ void BaseTask::getNext()
 
 void BaseTask::updateList()
 {
+    taskY = 0;
     query.exec("select count (*) from TaskList");
     if (query.next())
     {
@@ -331,7 +333,7 @@ void BaseTask::deleteTaskData(quint32 id)
     {
         emit logMistake(query.lastError().text());
     }
-    emit emitInitBase();
+    emit emitDelAndUpdate();
 }
 
 void BaseTask::changeTaskUser(QString login, QString task)
@@ -368,3 +370,14 @@ void BaseTask::saveReport(QString report)
        emit logMistake(query.lastError().text());
    }
 }
+
+int BaseTask::getY()
+{
+    return taskY;
+}
+
+void BaseTask::incY(int dy)
+{
+    taskY += dy;
+}
+
