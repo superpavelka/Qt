@@ -39,18 +39,20 @@ Window {
                    + begDate + '";endTxt:"' + endDate +'";prgTxt:"'
                    + Number(progress) + '%"; y:' + amountTasks * 25 + ';idt:' + id +
                    ';dbreader:basereader' + '}';
-           console.log(itog)
-           var newTask = Qt.createQmlObject(itog, table, "lineTask" + amountTasks++)
-           tasks.push(newTask)
-           getNext()
+           console.log(itog);
+           var newTask = Qt.createQmlObject(itog, table, "lineTask" + amountTasks++);
+           newTask.y = basereader.getY();
+           basereader.incY(newTask.height);
+           tasks.push(newTask);
+           getNext();
        }
        onEmitNextLine: getNext() // Добавление нового компонента
-       onEmitInitBase:
+       onEmitDelAndUpdate:
        {
-           taskWindow.close()
+           taskWindow.close();
            for (var i=0; i<tasks.length; i++)
-                       tasks[i].destroy()
-           basereader.updateList()
+                       tasks[i].destroy();
+           basereader.updateList();
        }
        onAddUserToList:
        {
@@ -102,7 +104,6 @@ Window {
        basereader.initBase();   // Загрузка базы заданий
        table.width = width
        table.height = height - 50;
-
 
        rect.width = width
        rect.height = 50;
