@@ -8,13 +8,26 @@ import com.gb.BaseTask 1.0
 Window {
    property BaseReader baseRender: null
    property int amount: 0
+   property var users : new Array (0)
    id:window
 
    function addUser(username)
    {
        var line = 'import QtQuick.Controls 2.5;Label{width:500;height:30;x:10;y:' + (160 + 30 * amount) + ';text:"' + username + '"}'
-       Qt.createQmlObject(line, table, 'user' + amount++)
+       var newUser = Qt.createQmlObject(line, table, 'user' + amount++)
+       users.push(newUser)
    }
+   /*function delUser(username)
+   {
+       var delIndex = -1
+       for (var i=0; i<users.length; i++)
+           if (users[i].text === username)
+               delIndex = i
+       if (delIndex >= 0)
+       {
+           users[delIndex].destroy()
+       }
+   }*/
    width: 600
    height: 600
    ScrollView {

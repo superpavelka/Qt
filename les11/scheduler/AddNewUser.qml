@@ -119,12 +119,25 @@ Rectangle
         {
             id:addusr
             text: "Добавить"
-            x:parent.width-100
+            x:parent.width-202
             width: 100
             height: 30
             onClicked:
             {
                 basereader.addNewUser(fio.text, login.text, pass.text, apass.text)
+                basereader.addNewUserCombo(fio.text)
+            }
+        }
+        Button
+        {
+            id:delusr
+            text: "Удалить"
+            x:parent.width-100
+            width: 100
+            height: 30
+            onClicked:
+            {
+                basereader.delUser(fio.text, login.text, pass.text, apass.text)
             }
         }
     }

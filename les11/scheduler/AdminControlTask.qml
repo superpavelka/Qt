@@ -148,6 +148,7 @@ Item {
            Button
            {
                x:450
+               width:100
                height: 30
                text: "Обновить"
                onClicked:
@@ -157,9 +158,9 @@ Item {
            }
 
            Button {
-               x: 549
+               x: 552
                y: 0
-               width: 91
+               width: 100
                height: 30
                text: "Удалить"
                onClicked:
