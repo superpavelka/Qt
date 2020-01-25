@@ -7,6 +7,7 @@
 #include <QSqlDatabase>
 #include <QSqlQuery>
 #include <QHash>
+#include <QUdpSocket>
 
 struct BData{
    int day, mounth, year;
@@ -43,6 +44,7 @@ signals:
    void signalAddNewUserCombo(QString fio);
 public slots:
    void initBase();
+    void initBaseClient(QString ip);
    void updateList();
    void filterList(QString user);
    void getNext();
@@ -64,6 +66,8 @@ public slots:
    void getNextUserTask();
    void changeTaskUser(QString login, QString task);
    void saveReport(QString report);
+   void serverUDPReceive();
+   void clientUDPReceive();
 
 private:
    QSqlDatabase database;
@@ -80,6 +84,14 @@ private:
                              // доступ к задаче
    QString curlogin;
    int taskY;
+   //---------- Сокет ------------
+     QUdpSocket *socket;
+     bool isInitDB;
+     bool isClient;
+     QHostAddress serverHost;
+     QHostAddress clienHost;
+     unsigned short clientport;
+
 };
 
 #endif // BASETASK_H

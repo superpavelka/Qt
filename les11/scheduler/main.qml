@@ -24,6 +24,11 @@ Window {
                 Qt.quit()
                 console.log(error)
             }
+            else
+            {
+                serverclientrect.destroy() // Удаляем панель выбора
+            }
+
             if (amount > 0)
             {
                 loadnext()
@@ -209,5 +214,45 @@ Window {
                 basereader.filterList(user)
             }
         }
+        Rectangle
+               {
+                   id:serverclientrect
+                   x:300
+                   y:userButton.y
+                   width: 400
+                   height: 100
+                   color: 'red'
+                   Button {
+                       id:localeBD
+                       height: 30
+                       text: "Локальная"
+                       onClicked:
+                       {
+                           basereader.initBase() // Работает как в примере из 11 урока
+                       }
+                   }
+                   Rectangle
+                   {
+                       anchors.fill: ipServer
+                   }
+                   TextEdit
+                   {
+                       id:ipServer
+                       x: localeBD.x + localeBD.width + 100
+                       width: 100
+                       text: "192.168.1.14"
+                   }
+                   Button
+                   {
+                       id:clientMode
+                       x:ipServer.x
+                       height: 30
+                       y:ipServer.y + ipServer.height + 10
+                       text: "Подключиться"
+                       onClicked: {
+                           basereader.initBaseClient(ipServer.text)
+                       }
+                   }
+               }
     }
 }
