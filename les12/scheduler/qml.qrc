@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/">
+        <file>TaskElement.qml</file>
+        <file>NewTask.qml</file>
+        <file>UserList.qml</file>
+        <file>AddNewUser.qml</file>
+        <file>ActiveUserItem.qml</file>
+        <file>AdminControlTask.qml</file>
+        <file>WorkMode.qml</file>
+        <file>TaskWindow.qml</file>
+        <file>main.qml</file>
+    </qresource>
+</RCC>
